@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #72EDF2 10%, #060609 100%);
+            color: white;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #pieChart {
+            max-width: 300px;
+            max-height: 300px;
+        }
+        .back-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5151E5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #3333cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pie Chart</h1>
+        <canvas id="pieChart"></canvas>
+        <button class="back-button" onclick="window.location.href='/'">Go Back</button>
+    </div>
+    <script>
+        // Parse the input value from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const input = parseInt(urlParams.get('input'));
+
+        // Function to determine the color based on input value
+        function getColor(value) {
+            if (value <= 20) return '#FF0000'; // Red
+            else if (value <= 40) return '#FFA500'; // Orange
+            else if (value <= 60) return '#FFFF00'; // Yellow
+            else if (value <= 80) return '#8669ea'; // purple
+            else return '#0000FF'; // Blue
+        }
+
+        const inputColor = getColor(input);
+
+        // Generate the pie chart
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        const data = {
+            labels: ['Input', 'Remaining'],
+            datasets: [{
+                label: 'User Input Chart',
+                data: [input, 100 - input],
+                backgroundColor: [inputColor, '#6996ea'], // Gray for remaining part
+            }]
+        };
+        new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    </script>
+</body>
+</html>
